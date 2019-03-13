@@ -3,7 +3,7 @@ package main;
 public class Stack {
     private static class Node {
         private int data;
-        private Node nextNode;
+        private Node next;
 
 
         public int getData() {
@@ -11,8 +11,8 @@ public class Stack {
         }
 
 
-        public Node getNextNode() {
-            return nextNode;
+        public Node getNext() {
+            return next;
         }
 
 
@@ -22,23 +22,37 @@ public class Stack {
         }
 
 
-        public void setNextNode(Node nextNode) {
-            this.nextNode = nextNode;
+        public void setNext(Node nextNode) {
+            this.next = nextNode;
         }
 
 
         public Node(int data, Node nextNode) {
             this.data = data;
-            this.nextNode = nextNode;
+            this.next = nextNode;
         }
     }
 
-    private Node head = null;
+    private Node top = null;
 
     private int size = 0;
 
     public void push(int data){
-        Node newNode = new Node(data,)
+        Node newNode = new Node(data,this.top);
+        this.top =newNode;
+        this.size++;
+    }
+    public int pop(){
+        int response = -1;
+        if(this.top != null){
+            response = this.top.getData();
+            this.top = this.top.getNext();
+            this.size--;
+        }else {
+            System.out.println("empty");
+
+        }
+        return response;
     }
 
     @Override
@@ -46,28 +60,41 @@ public class Stack {
         StringBuilder result = new StringBuilder();
         result.append("[");
 
-        //  create a copy for the current 'head' node for the list
-        Node temp = this.head;
 
-        //  travers the current linked list
+        Node temp = this.top;
+
+
         while (temp != null) {
 
-            //  append the data of the current node to the result
             result.append(temp.getData());
 
-            // check if the current node has a next node
-            if (temp.getNextNode() != null) {
-                //  append an arrow to depict the single reference between two nodes
+
+            if (temp.getNext() != null) {
+
                 result.append(" --> ");
             }
 
-            //  update the reference of temp to the next node
-            temp = temp.getNextNode();
+
+
+            temp = temp.getNext();
         }
 
-        //  append a ] for the end of the list
+
         result.append("]");
         return result.toString();
+
+    }
+
+    public static void main(String[] args) {
+        Stack stack = new Stack();
+        System.out.println(stack);
+        for (int i = 0; i < 5; i++) {
+            stack.push(i+1);
+
+        }
+        System.out.println(stack);
+        stack.pop();
+        System.out.println(stack);
 
     }
 }
